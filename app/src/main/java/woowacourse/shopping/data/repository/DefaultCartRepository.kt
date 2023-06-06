@@ -58,10 +58,6 @@ class DefaultCartRepository(private val service: CartService) : CartRepository {
         })
     }
 
-    private fun a(): String? {
-        return "a"
-    }
-
     override fun saveCartProductByProductId(
         productId: ProductId,
         onSuccess: (cartItemId: Int) -> Unit,
