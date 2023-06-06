@@ -19,7 +19,6 @@ import woowacourse.shopping.model.mapper.toDomain
 import woowacourse.shopping.model.mapper.toUi
 import woowacourse.shopping.ui.shopping.ShoppingContract.Presenter
 import woowacourse.shopping.ui.shopping.ShoppingContract.View
-import woowacourse.shopping.util.collection.DistinctList
 
 class ShoppingPresenter(
     private val view: View,
@@ -31,7 +30,7 @@ class ShoppingPresenter(
     sizePerPage: Int = 20,
 ) : Presenter {
     private var cart = Cart()
-    private val products: DistinctList<Product> = DistinctList()
+    private val products: LinkedHashSet<Product> = LinkedHashSet()
     private var currentPage: Page = LoadMore(sizePerPage = sizePerPage)
     private val cartProductCount: ProductCountModel
         get() = ProductCountModel(cart.productCountInCart)
@@ -109,7 +108,7 @@ class ShoppingPresenter(
     }
 
     private fun transformCartProducts(
-        products: List<Product>,
+        products: LinkedHashSet<Product>,
         cartProducts: List<CartProduct>,
     ): List<CartProduct> = products.map { product ->
         cartProducts.find { it.productId == product.id } ?: CartProduct(
