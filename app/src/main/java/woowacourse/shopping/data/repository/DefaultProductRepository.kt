@@ -29,8 +29,9 @@ class DefaultProductRepository(
                 call: Call<ProductsResponse>,
                 response: Response<ProductsResponse>,
             ) {
-                if (response.body() != null && response.isSuccessful) {
-                    onSuccess(response.body()?.products?.map { it.toDomain() } ?: emptyList())
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(responseBody.products.map { it.toDomain() })
                     return
                 }
                 onFailed(Throwable(response.message()))
@@ -51,8 +52,9 @@ class DefaultProductRepository(
                 call: Call<ProductsResponse>,
                 response: Response<ProductsResponse>,
             ) {
-                if (response.body() != null && response.isSuccessful) {
-                    onSuccess(response.body()?.products?.map { it.toDomain() } ?: emptyList())
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(responseBody.products.map { it.toDomain() })
                     return
                 }
                 onFailed(Throwable(response.message()))
@@ -74,8 +76,9 @@ class DefaultProductRepository(
                 call: Call<ProductItemResponse?>,
                 response: Response<ProductItemResponse?>,
             ) {
-                if (response.body() != null && response.isSuccessful) {
-                    onSuccess(response.body()?.toDomain())
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(responseBody.toDomain())
                     return
                 }
                 onFailed(Throwable(response.message()))

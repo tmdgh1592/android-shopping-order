@@ -44,8 +44,9 @@ class DefaultCartRepository(private val service: CartService) : CartRepository {
                 call: Call<CartGetResponse>,
                 response: Response<CartGetResponse>,
             ) {
-                if (response.isSuccessful && response.body() != null) {
-                    onSuccess(response.body()!!.toDomain())
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(responseBody.toDomain())
                     return
                 }
                 onFailed()
@@ -55,6 +56,10 @@ class DefaultCartRepository(private val service: CartService) : CartRepository {
                 onFailed()
             }
         })
+    }
+
+    private fun a(): String? {
+        return "a"
     }
 
     override fun saveCartProductByProductId(

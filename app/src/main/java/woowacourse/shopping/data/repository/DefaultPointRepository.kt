@@ -16,8 +16,9 @@ class DefaultPointRepository(private val service: PointService) : PointRepositor
     ) {
         service.getPoint().enqueue(object : Callback<PointResponse> {
             override fun onResponse(call: Call<PointResponse>, response: Response<PointResponse>) {
-                if (response.body() != null && response.isSuccessful) {
-                    onSuccess(Point(response.body()?.availablePoint ?: 0))
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(Point(responseBody.availablePoint))
                     return
                 }
                 onFailed(Throwable(response.message()))

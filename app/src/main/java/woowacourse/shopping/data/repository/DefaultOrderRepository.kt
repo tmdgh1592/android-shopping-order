@@ -1,6 +1,5 @@
 package woowacourse.shopping.data.repository
 
-import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +20,8 @@ class DefaultOrderRepository(private val service: OrderService) : OrderRepositor
     ) {
         service.saveOrder(order.toOrderRequest()).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                if (response.isSuccessful && response.body() != null) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
                     onSuccess()
                     return
                 }
@@ -47,8 +47,9 @@ class DefaultOrderRepository(private val service: OrderService) : OrderRepositor
                 call: Call<OrdersResponse>,
                 response: Response<OrdersResponse>,
             ) {
-                if (response.isSuccessful && response.body() != null) {
-                    onSuccess(response.body()?.orders?.toOrders() ?: emptyList())
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    onSuccess(responseBody.orders.toOrders())
                     return
                 }
                 onFailed(Throwable(response.message()))
